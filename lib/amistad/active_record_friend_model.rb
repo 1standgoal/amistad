@@ -15,12 +15,12 @@ module Amistad
       has_many  :pending_invited,
         :through => :friendships,
         :source => :friend,
-        -> { where 'friendships.pending': true, where 'friendships.blocker_id': nil }
+        -> { where(friendships.pending: true), where(friendships.blocker_id: nil) }
 
       has_many  :invited,
         :through => :friendships,
         :source => :friend,
-        -> { where :'friendships.pending' => false, where :'friendships.blocker_id' => nil }
+        -> { where(friendships.pending: false), where(friendships.blocker_id: nil) }
 
       #####################################################################################
       # inverse friendships
@@ -32,12 +32,12 @@ module Amistad
       has_many  :pending_invited_by,
         :through => :inverse_friendships,
         :source => :friendable,
-        -> { where :'friendships.pending' => true, where :'friendships.blocker_id' => nil }
+        -> { where(friendships.pending: true), where (friendships.blocker_id: nil) }
 
       has_many  :invited_by,
         :through => :inverse_friendships,
         :source => :friendable,
-        -> { where :'friendships.pending' => false, where :'friendships.blocker_id' => nil }
+        -> { where(friendships.pending: false), where(friendships.blocker_id: nil) }
 
       #####################################################################################
       # blocked friendships

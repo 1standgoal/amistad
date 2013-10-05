@@ -15,12 +15,12 @@ module Amistad
       has_many  :pending_invited,
         :through => :friendships,
         :source => :friend,
-        -> { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+        -> { where 'friendships.pending': true, where 'friendships.blocker_id': nil }
 
       has_many  :invited,
         :through => :friendships,
         :source => :friend,
-        -> { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+        -> { where :'friendships.pending' => false, where :'friendships.blocker_id' => nil }
 
       #####################################################################################
       # inverse friendships
@@ -32,12 +32,12 @@ module Amistad
       has_many  :pending_invited_by,
         :through => :inverse_friendships,
         :source => :friendable,
-        -> { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+        -> { where :'friendships.pending' => true, where :'friendships.blocker_id' => nil }
 
       has_many  :invited_by,
         :through => :inverse_friendships,
         :source => :friendable,
-        -> { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+        -> { where :'friendships.pending' => false, where :'friendships.blocker_id' => nil }
 
       #####################################################################################
       # blocked friendships
@@ -49,12 +49,12 @@ module Amistad
       has_many  :blockades,
         :through => :blocked_friendships,
         :source => :friend,
-        -> "friend_id <> blocker_id"
+        -> { where "friend_id <> blocker_id" }
 
       has_many  :blockades_by,
         :through => :blocked_friendships,
         :source => :friendable,
-        -> "friendable_id <> blocker_id"
+        -> { where "friendable_id <> blocker_id" }
     end
 
     # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
